@@ -1,0 +1,19 @@
+# Maven
+/target/
+*.class
+*.log
+
+# VS Code (configuración local; permite configuraciones compartidas específicas)
+.vscode/*
+!.vscode/extensions.json
+
+# IntelliJ / Eclipse / otros
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

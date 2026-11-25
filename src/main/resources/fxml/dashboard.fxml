@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Vista de prueba: Emilio implementará el DashboardController y el dashboard final. -->
+<VBox xmlns="http://javafx.com/javafx/21" alignment="CENTER" spacing="16.0"
+      styleClass="pantalla-inicio">
+    <padding>
+        <Insets top="32" right="32" bottom="32" left="32" />
+    </padding>
+    <children>
+        <Label text="FlagLeague Manager" styleClass="titulo" />
+        <Label text="Proyecto base listo: Java 21 + Maven + JavaFX + FXML" styleClass="subtitulo" />
+        <Label text="Esta pantalla es temporal. Los módulos deportivos los programarán los estudiantes." />
+    </children>
+</VBox>

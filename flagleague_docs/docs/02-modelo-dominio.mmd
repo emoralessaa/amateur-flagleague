@@ -1,0 +1,137 @@
+classDiagram
+    direction TB
+
+    class Temporada {
+      +UUID id
+      +String nombre
+      +LocalDate inicio
+      +LocalDate fin
+    }
+    class Categoria {
+      +UUID id
+      +String nombre
+      +Rama rama
+      +int edadMin
+      +int edadMax
+    }
+    class Equipo {
+      +UUID id
+      +String nombre
+      +boolean activo
+    }
+    class Jugador {
+      +UUID id
+      +UUID equipoId
+      +String nombre
+      +LocalDate fechaNacimiento
+      +Rama ramaRegistro
+      +boolean activo
+    }
+    class Torneo {
+      +UUID id
+      +UUID temporadaId
+      +UUID categoriaId
+      +Modalidad modalidad
+      +FormatoTorneo formato
+      +EstadoTorneo estado
+    }
+    class Inscripcion {
+      +UUID id
+      +UUID torneoId
+      +UUID equipoId
+      +int ordenSiembra
+    }
+    class ConfiguracionTorneo {
+      +int puntosVictoria
+      +int puntosEmpate
+      +int puntosDerrota
+      +List~CriterioDesempate~ criterios
+    }
+    class ReglamentoAnotaciones {
+      +int puntosTouchdown
+      +int puntosConversion1
+      +int puntosConversion2
+      +int puntosSafety
+    }
+    class Partido {
+      +UUID id
+      +UUID torneoId
+      +UUID equipoLocalId
+      +UUID equipoVisitanteId
+      +LocalDateTime fechaHora
+      +int jornada
+      +Etapa etapa
+      +EstadoPartido estado
+      +UUID ganadorDesempateId
+      +String motivoDesempate
+    }
+    class Anotacion {
+      +UUID id
+      +UUID partidoId
+      +UUID equipoId
+      +TipoAnotacion tipo
+      +UUID touchdownOrigenId
+    }
+    class Marcador {
+      +int local
+      +int visitante
+    }
+    class FilaPosiciones {
+      +UUID equipoId
+      +int jugados
+      +int ganados
+      +int empatados
+      +int perdidos
+      +int puntosFavor
+      +int puntosContra
+      +int puntosTabla
+    }
+    class CalculadoraMarcador {
+      +calcular(Partido, List~Anotacion~, ReglamentoAnotaciones) Marcador
+    }
+    class ClasificacionService {
+      +calcular(UUID torneoId) List~FilaPosiciones~
+    }
+    class FormatoCompetencia {
+      <<interface>>
+      +generarPrimeraFase(UUID torneoId) List~Partido~
+      +generarSiguienteFase(UUID torneoId) List~Partido~
+      +obtenerCampeon(UUID torneoId) Optional~UUID~
+    }
+    class FormatoLiga
+    class FormatoEliminacion
+    class FormatoLigaPlayoffs
+    class Repository~T~ {
+      <<interface>>
+      +guardar(T entidad) T
+      +buscarPorId(UUID id) Optional~T~
+      +listar() List~T~
+      +eliminar(UUID id) void
+    }
+    class PartidoRepository {
+      <<interface>>
+      +buscarPorTorneo(UUID torneoId) List~Partido~
+    }
+    class PartidoRepositoryMemoria {
+      -Map~UUID,Partido~ datos
+    }
+
+    Temporada "1" --> "0..*" Torneo : contiene
+    Categoria "1" --> "0..*" Torneo : aplica a
+    Equipo "1" --> "0..*" Jugador : plantilla
+    Torneo "1" *-- "1" ConfiguracionTorneo : reglas tabla
+    Torneo "1" *-- "1" ReglamentoAnotaciones : reglas anotaciones
+    Torneo "1" --> "0..*" Inscripcion : registra
+    Equipo "1" --> "0..*" Inscripcion : participa
+    Torneo "1" --> "0..*" Partido : programa
+    Partido "1" --> "0..*" Anotacion : registra
+    Anotacion ..> ReglamentoAnotaciones : valor en puntos
+    CalculadoraMarcador ..> Anotacion : suma
+    CalculadoraMarcador ..> Marcador : produce
+    ClasificacionService ..> Partido : calcula
+    ClasificacionService ..> FilaPosiciones : produce
+    FormatoCompetencia <|.. FormatoLiga
+    FormatoCompetencia <|.. FormatoEliminacion
+    FormatoCompetencia <|.. FormatoLigaPlayoffs
+    Repository <|-- PartidoRepository
+    PartidoRepository <|.. PartidoRepositoryMemoria

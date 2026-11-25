@@ -1,0 +1,17 @@
+.root {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #f7f9fc;
+}
+.pantalla-inicio {
+    -fx-background-color: #f7f9fc;
+}
+.titulo {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17355d;
+}
+.subtitulo {
+    -fx-font-size: 16px;
+    -fx-text-fill: #475569;
+}
